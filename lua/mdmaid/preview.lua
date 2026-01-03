@@ -34,6 +34,12 @@ end
 ---@param url? string
 function M.open_browser(url)
   url = url or server.get_url()
+
+  if not server.port then
+    vim.notify("Server not ready yet", vim.log.levels.WARN)
+    return
+  end
+
   local cmd = get_open_command(url)
 
   vim.fn.jobstart(cmd, {
@@ -62,14 +68,35 @@ function M.start(file)
       return
     end
 
-    -- Wait a bit for server to start, then open browser
+    -- Wait for port to be assigned, then open browser
     if opts.preview.open_browser then
-      vim.defer_fn(function()
-        M.open_browser()
-      end, 500)
+      -- Poll until port is available
+      local attempts = 0
+      local timer = vim.loop.new_timer()
+      timer:start(
+        100,
+        100,
+        vim.schedule_wrap(function()
+          attempts = attempts + 1
+          if server.port then
+            timer:stop()
+            timer:close()
+            M.open_browser()
+          elseif attempts > 50 then -- 5 second timeout
+            timer:stop()
+            timer:close()
+            vim.notify("Timeout waiting for server to start", vim.log.levels.ERROR)
+          end
+        end)
+      )
     end
   else
-    -- Server already running, just open browser
+    -- Server already running
+    -- Add current file if different
+    if file then
+      server.add_file(file)
+    end
+
     if opts.preview.open_browser then
       M.open_browser()
     end
@@ -99,8 +126,9 @@ function M.status()
     server_running = server.is_running(),
     browser_opened = M.browser_opened,
     url = server.get_url(),
-    file = server.current_file,
+    file = server.get_current_file(),
     port = server.port,
+    files = server.get_files(),
   }
 end
 

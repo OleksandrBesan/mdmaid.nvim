@@ -42,12 +42,39 @@ function M.check()
     end
   end
 
+  -- Check for Telescope (optional)
+  local has_telescope = pcall(require, "telescope")
+  if has_telescope then
+    vim.health.ok("Telescope found (file picker will use Telescope)")
+  else
+    vim.health.info("Telescope not found (file picker will use vim.ui.select)")
+  end
+
   -- Check server status
   local server = require("mdmaid.server")
   if server.is_running() then
     vim.health.ok("Server running on port " .. server.port)
   else
     vim.health.info("Server not running")
+  end
+
+  -- Check session info
+  local session = require("mdmaid.session")
+  if session.current then
+    local files = session.get_files()
+    vim.health.ok("Session active with " .. #files .. " tracked file(s)")
+    if session.current.current_file then
+      vim.health.info("Current file: " .. vim.fn.fnamemodify(session.current.current_file, ":t"))
+    end
+  else
+    vim.health.info("No active session")
+  end
+
+  -- Check session directory
+  local session_dir = "/tmp/mdmaid-sessions"
+  if vim.fn.isdirectory(session_dir) == 1 then
+    local sessions = vim.fn.glob(session_dir .. "/*.json", false, true)
+    vim.health.info(#sessions .. " session file(s) in " .. session_dir)
   end
 end
 

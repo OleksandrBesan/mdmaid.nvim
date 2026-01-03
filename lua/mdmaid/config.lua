@@ -27,6 +27,8 @@
 ---@class MdmaidKeymapsConfig
 ---@field preview? string Toggle preview keymap (default: "<leader>mp")
 ---@field stop? string Stop server keymap (default: "<leader>ms")
+---@field files? string File picker keymap (default: "<leader>mf")
+---@field add? string Add file keymap (default: "<leader>ma")
 
 ---@class MdmaidConfig
 ---@field server? MdmaidServerConfig
@@ -59,6 +61,8 @@ M.defaults = {
   keymaps = {
     preview = "<leader>mp",
     stop = "<leader>ms",
+    files = "<leader>mf",
+    add = "<leader>ma",
   },
   mdmaid_path = "mdmaid",
 }
