@@ -35,7 +35,7 @@ Then add the plugin to your Neovim config.
 
 Using lazy.nvim: >lua
     {
-      "olesbesan/mdmaid.nvim",
+      "OleksandrBesan/mdmaid.nvim",
       ft = "markdown",
       config = function()
         require("mdmaid").setup()

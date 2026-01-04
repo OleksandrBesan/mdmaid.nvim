@@ -2,7 +2,7 @@
 
 Markdown + Mermaid preview for Neovim.
 
-Live preview of markdown files with first-class Mermaid diagram support, powered by [mdmaid](https://github.com/olesbesan/mdmaid).
+Live preview of markdown files with first-class Mermaid diagram support, powered by [mdmaid](https://github.com/OleksandrBesan/mdmaid).
 
 ## Features
 
@@ -21,7 +21,7 @@ Live preview of markdown files with first-class Mermaid diagram support, powered
 
 - Neovim >= 0.9.0
 - Node.js >= 18
-- [mdmaid](https://github.com/olesbesan/mdmaid) CLI
+- [mdmaid](https://github.com/OleksandrBesan/mdmaid) CLI
 - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) (optional, for file picker)
 
 ## Installation
@@ -36,7 +36,7 @@ npm install -g mdmaid
 
 ```lua
 {
-  "olesbesan/mdmaid.nvim",
+  "OleksandrBesan/mdmaid.nvim",
   ft = "markdown",
   dependencies = {
     "nvim-telescope/telescope.nvim", -- optional
@@ -51,7 +51,7 @@ npm install -g mdmaid
 
 ```lua
 use {
-  "olesbesan/mdmaid.nvim",
+  "OleksandrBesan/mdmaid.nvim",
   ft = "markdown",
   requires = {
     "nvim-telescope/telescope.nvim", -- optional
